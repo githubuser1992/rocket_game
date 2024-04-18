@@ -1,4 +1,9 @@
-# https://realpython.com/pygame-a-primer/#note-on-sources
+
+    # OpenGameArt.org:  sounds, sound effects, sprites, and other artwork
+    # Kenney.nl:        sounds, sound effects, sprites, and other artwork
+    # Gamer Art 2D:     sprites and other artwork
+    # CC Mixter:        sounds and sound effects
+    # Freesound:        sounds and sound effects
 
 import pygame
 import random
@@ -20,10 +25,10 @@ screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 
 
 image_rocket = pygame.image.load("assets/rocket.png")
-img_rocket = pygame.transform.scale(image_rocket, (300, 300)).convert()
+img_rocket = pygame.transform.scale(image_rocket, (85, 42)).convert()
 
-image_pineapple = pygame.image.load("assets/pineapple.png")
-img_pineapple = pygame.transform.scale(image_pineapple, (300, 300)).convert()
+image_aseroid = pygame.image.load("assets/asteroid.png")
+img_asteroid = pygame.transform.scale(image_aseroid, (35, 35)).convert()
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -59,7 +64,7 @@ pygame.time.set_timer(ADDENEMY, 250)
 class Enemy(pygame.sprite.Sprite):
     def __init__(self):
         super(Enemy, self).__init__()
-        self.surf = img_pineapple
+        self.surf = img_asteroid
         self.surf.set_colorkey((255,255,255), RLEACCEL)
         self.rect = self.surf.get_rect(
             center=(
@@ -77,6 +82,7 @@ class Enemy(pygame.sprite.Sprite):
 enemies = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
+clock = pygame.time.Clock()
 
 # run until the user quits
 running = True
@@ -101,10 +107,10 @@ while running:
     for entity in all_sprites:
         screen.blit(entity.surf, entity.rect)
     if pygame.sprite.spritecollideany(player, enemies):
-        # player.kill()
-        # running = False
-        print("collide")
+        player.kill()
+        running = False
     pygame.display.flip() # dump everything on the screen
+    clock.tick(30)
 
 # loop exited, quit now
 pygame.quit()
